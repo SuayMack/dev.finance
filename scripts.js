@@ -1,60 +1,52 @@
-// const Modal = {
-//    open(){
-//       //Abrir modal
-//       //Adicionar a class active ao modal
-//       document.querySelector('.modal-overlay').classList.add('active');
-//    },
-//    close(){
-//       //Fechar modal
-//       //Remover a classe active ao modal
-//       document.querySelector('.modal-overlay').classList.remove('active');
-//    }
-// }
+/*
+   const Modal = {
+      open(){
+         //Abrir modal
+         //Adicionar a class active ao modal
+         document.querySelector('.modal-overlay').classList.add('active');
+      },
+      close(){
+         //Fechar modal
+         //Remover a classe active ao modal
+         document.querySelector('.modal-overlay').classList.remove('active');
+      }
+   }
+*/
 
 function modal(){
    let element = document.querySelector('.modal-overlay');
    element.classList.toggle('active');
 }
 
+const Storage = {
+   get() {
+      return JSON.parse(localStorage.getItem("dev.finances:transactions")) || []
+   },
+
+   set(transactions) {
+      localStorage.setItem("dev.finances:transactions", JSON.stringify(transactions))
+   }
+}
+
 const Transaction = {
-   all: [
-      {
-         description: 'Luz',
-         amount: -50035,
-         date: '23/01/2021',
-      },
-      {
-         description: 'Website',
-         amount: 500035,
-         date: '23/01/2021',
-      },
-      {
-         description: 'Internet',
-         amount: -20031,
-         date: '23/01/2021',
-      },
-      {
-         description: 'App',
-         amount: 500000,
-         date: '23/01/2021',
-      },
-   ],
+   all: Storage.get(),
 
    add(transaction){
       Transaction.all.push(transaction)
+
       App.reload()
    },
 
-
    remove(index) {
       Transaction.all.splice(index, 1)
+
       App.reload()
    },
 
    incomes(){
       let income = 0;
       //para cada transação, 
-      Transaction.all.forEach((transaction) => {
+      Transaction.all.forEach(transaction => {
          //se a transação for maior que zero
          if(transaction.amount > 0 ){
             //somar a variável
@@ -213,18 +205,19 @@ const Form = {
             icon: "error",
          })
       }      
-   },
+   }
 }
 
 const App = {
    init() {
-      Transaction.all.forEach(DOM.addTransaction)
+      Transaction.all.forEach(DOM.addTransaction)      
       DOM.updateBalance()
+      //Storage.set(Transaction.all)
    },
-   reload(){
+   reload() {
       DOM.clearTransactions()
       App.init()
-   }
+   },
 }
 
 App.init()
