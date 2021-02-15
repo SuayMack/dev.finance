@@ -91,12 +91,13 @@ const DOM = {
 
    addTransaction(transaction, index){
       const tr = document.createElement('tr')
-      tr.innerHTML = DOM.innerHtmlTransaction(transaction)
+      tr.innerHTML = DOM.innerHtmlTransaction(transaction, index)
+      tr.dataset.index = index
 
       DOM.transactionsContainer.appendChild(tr)
    },
 
-   innerHtmlTransaction(transaction){
+   innerHtmlTransaction(transaction, index){
       const CSSclass = transaction.amount > 0 ? "income" : "expense"
 
       const amount = Utils.formatCurrency(transaction.amount)
@@ -106,7 +107,7 @@ const DOM = {
          <td class="${CSSclass}">- R$ ${amount}</td>
          <td class="date">${transaction.date}</td>
          <td>
-            <img src="./assets/minus.svg" alt="Remover transação.">
+            <img onclick="Transaction.remove(${index})" src="./assets/minus.svg" alt="Remover transação.">
          </td>
       `
       return html
@@ -124,6 +125,17 @@ const DOM = {
 }
 
 const Utils = {
+   formatAmount(value){
+      //value = Number(value.replace(/\,\./g, "")) * 100
+      value = Number(value) * 100
+      return value
+   },
+
+   formatDate(date) {
+      const splittedtDate = date.split("-")
+      return `${splittedtDate[2]}/${splittedtDate[1]}/${splittedtDate[0]}`
+   },
+
    formatCurrency(value){
       const signal = Number(value) < 0 ? "-" : ""
 
@@ -144,7 +156,7 @@ const Form = {
    description: document.querySelector('input#description'),
    amount: document.querySelector('input#amount'),
    date: document.querySelector('input#date'),
-
+ 
    getValues(){
       return {
          description: Form.description.value,
@@ -153,34 +165,51 @@ const Form = {
       }
    },
 
-   formatData(){
-      console.log('formatar os dados')
-   },
-
    validateFields(){
       const {description, amount, date} = Form.getValues()
 
       if(description.trim() === "" || amount.trim() === "" || date.trim() === ""){
-         throw new Error()
+         swal({
+            title:"Por favor, preencha todos os campos",
+            icon: "error",
+         })          
       }
-      console.log(description)
+   },
+
+   formatValues(){
+      let {description, amount, date} = Form.getValues() 
+      amount = Utils.formatAmount(amount)
+      date = Utils.formatDate(date)
+      return {
+         description,
+         amount,
+         date
+      }
+   },
+
+   clearFields(transaction){
+      Form.description.value = ""
+      Form.amount.value = ""
+      Form.date.value = ""
    },
 
    submit(event){
-      event.preventDefault()
-      //verificar se todas informações forem preenchidas
+      //verificar se todas informações foram preenchidas
+      event.preventDefault()      
 
       try {
          Form.validateFields()
          //formatar os dados para salvar
-         //Form.formatData()
+         const transaction = Form.formatValues()
          //salvar
+         Transaction.add(transaction)
          //apagar os dados do formulário
-         //modal feche
-         //Atualizar a aplicação
+         Form.clearFields()
+         //Fechar modal
+         modal()
       }catch (error){
          swal({
-            title:'Por favor, preencha todos os campos',
+            title:`${error.message}`,
             icon: "error",
          })
       }      
@@ -189,12 +218,8 @@ const Form = {
 
 const App = {
    init() {
-      Transaction.all.forEach(transation => {
-         DOM.addTransaction(transation)
-      })
-      
+      Transaction.all.forEach(DOM.addTransaction)
       DOM.updateBalance()
-
    },
    reload(){
       DOM.clearTransactions()
