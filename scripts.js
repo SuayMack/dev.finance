@@ -157,14 +157,17 @@ const Form = {
       }
    },
 
+   
+
    validateFields(){
       const {description, amount, date} = Form.getValues()
-
-      if(description.trim() === "" || amount.trim() === "" || date.trim() === ""){
-         swal({
-            title:"Por favor, preencha todos os campos",
-            icon: "error",
-         })          
+      if(description.trim() === "" || amount.trim() === "" || date.trim() === ""){                 
+         throw (Swal.fire({
+            icon: 'error',
+            title: '',
+            text: 'Por favor, preencha todos os campos!',
+            
+          }))                       
       }
    },
 
