@@ -3,6 +3,8 @@
    --dark-blue: #363f5f;
    --green: #49aa26;
    --light-green: #3dd705;
+
+   --dark-green: #0c2b01;
    --red: #e92929;
 }
 
@@ -199,7 +201,7 @@ td.income {
 }
 
 td.expense {
-   color: #e92929
+   color: var(--red)
 }
 
 /* Modal */
@@ -267,6 +269,108 @@ margin-top: .8rem;
 .input-group.actions .button,
 .input-group.actions button {
    width: 48%;
+}
+
+/* Radio */
+.radio {
+   padding: 20px;
+   background: var(--dark-green);
+   color: #fff;
+   text-align: center;
+   box-shadow: 0 10px 30px rgb(0 0 0);
+   border-radius: 5px;
+   overflow: hidden;
+}
+
+.radio:before {
+   content: '';
+   position: absolute;
+   top: 0;
+   left: -50%;
+   width: 100%;
+   height: 100%;
+   background: rgb(255, 255, 255, 0.05);
+   transform: skewX(-3deg);
+   pointer-events: none;
+}
+
+.radio p {
+   margin: 0;
+   padding: 0;
+   color: #fff;
+   font-size: 24px;
+}
+
+.radio label {
+   position: relative;
+   cursor: pointer;
+}
+
+.radio label input {
+   display: none;
+}
+
+.radio label span {
+   position: relative;
+   display: inline-block;
+   margin: 20px 10px;
+   padding: 6px;
+   width: 5.1rem;
+   background: #000;
+   border: 1px solid #444;
+   color: #444;
+   border-radius: 4px;
+}
+
+.radio label input:checked ~ span {
+   color: #fff;
+   border: 1px solid #008eff;
+}
+
+.radio label input:checked ~ span::before {
+   content: '';
+   width: 100%;
+   height: 100%;
+   position: absolute;
+   top: 0;
+   left: 0;
+   background: #008eff;
+   z-index: -1;
+   filter: blur(10px);
+}
+
+.radio label input:checked ~ span::after {
+   content: '';
+   width: 100%;
+   height: 100%;
+   position: absolute;
+   top: 0;
+   left: 0;
+   background: #008eff;
+   z-index: -1;
+   filter: blur(15px);
+}
+
+.radio label input:checked ~ span.income {
+   color: var(--light-green);
+   border-color: var(--light-green);
+   box-shadow: inset 0 0 10px var(--light-green);
+}
+
+.radio label input:checked ~ span.income::before,
+.radio label input:checked ~ span.income::after {
+   background: var(--light-green);
+}
+
+.radio label input:checked ~ span.expense {
+   color: var(--red);
+   border-color: var(--red);
+   box-shadow: inset 0 0 10px var(--red);
+}
+
+.radio label input:checked ~ span.expense::before,
+.radio label input:checked ~ span.expense::after {
+   background: var(--red);
 }
 
 /* Footer */
