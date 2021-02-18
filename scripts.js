@@ -117,12 +117,27 @@ const DOM = {
 }
 
 const Utils = {
+   // formatAmount(value){
+   //    //value = Number(value.replace(/\,\./g, "")) * 100
+   //    value = Number(value) * 100
+   //    return value
+   // },
+
+   /***** Alteração inputRadio *****/
    formatAmount(value){
       //value = Number(value.replace(/\,\./g, "")) * 100
-      value = Number(value) * 100
+
+      if (document.getElementById("incomeRadio").checked) {
+         value = Number(value) * 100
+      } else if (document.getElementById("expenseRadio").checked) {
+         value = (Number(value) * 100) * -1   
+      }
+
+      //value = Number(value) * 100
       return value
    },
-
+   /******************************/
+   
    formatDate(date) {
       const splittedtDate = date.split("-")
       return `${splittedtDate[2]}/${splittedtDate[1]}/${splittedtDate[0]}`

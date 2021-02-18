@@ -6,6 +6,7 @@
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>dev. finance$</title>
 
+   <link rel="shortcut icon" href="./assets/icon.png">
    <link rel="stylesheet" href="./style.css">
    <link rel="preconnect" href="https://fonts.gstatic.com">
    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,400;0,700;1,300;1,400&display=swap" rel="stylesheet">
@@ -70,6 +71,15 @@
          <div id="form">
             <h2>Nova  Transação</h2>
             <form action="" onsubmit="Form.submit(event)">
+               <div class="input-group">
+                  <div class="radio">
+                        <input type="radio" id="incomeRadio" name="amountRadio" value="income">
+                        <label for="incomeRadio">Entrada</label>
+                     
+                        <input type="radio" id="expenseRadio" name="amountRadio" value="expense">
+                        <label for="expenseRadio">Saída</label>
+                  </div>
+               </div>
                <div class="input-group">
                   <label for="description" class="sr-only">Descrição</label>
                   <input type="text" id="description" name="description" placeholder="Descrição">
