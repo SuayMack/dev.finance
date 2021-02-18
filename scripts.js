@@ -127,14 +127,15 @@ const Utils = {
    formatAmount(value){
       //value = Number(value.replace(/\,\./g, "")) * 100
 
-      if (document.getElementById("incomeRadio").checked) {
+      if ((document.getElementById("incomeRadio").checked) && value > 0)  {
          value = Number(value) * 100
-      } else if (document.getElementById("expenseRadio").checked) {
+      } else if ((document.getElementById("expenseRadio").checked)  && value > 0){
          value = (Number(value) * 100) * -1   
       }
 
       //value = Number(value) * 100
       return value
+      
    },
    /******************************/
    
